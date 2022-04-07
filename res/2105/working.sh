@@ -11,7 +11,7 @@ BITBUCKET_PASSWORD="CEQcYMprjy2y5H7PcUFs"
 BITBUCKET_WORKSPACEID="egorkluev"
 BITBUCKET_REPO="shtestrepo"
 ###################################
-JENKINS_VIEW="1.\ VKP\ -\ D"
+JENKINS_VIEW='"1. VKP - D"'
 PR_DAY="4"
 
 #bilekl qwasGhvx33s 
