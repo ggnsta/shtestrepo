@@ -2,9 +2,10 @@
 
 export PATH=$JAVA_HOME2:$PATH
 export HOME=/home/egor
-export GIT_SSH_COMMAND="ssh -i /home/egor/.ssh/id_rsa"
+path_to_key="/home/egor/.ssh/id_rsa.pub"
+export GIT_SSH_COMMAND="ssh -i "$path_to_key""
 #git config --add --local core.sshCommand 'ssh -i /home/egor/.ssh/id_rsa.pub'
-echo "TRY TRY TRY"
+
 
 
 TODAY_DATE=$(date +"%m-%d-%Y")
