@@ -36,8 +36,10 @@ if [ $(date +%w) = $PR_DAY ]; then
 
 	git commit -a -m "Jenkins configs backup from: $TODAY_DATE"
 	echo "git commit succ"
-
   export GIT_SSH_COMMAND='ssh -o IdentitiesOnly=yes -i /home/egor/.ssh/id_rsa -F /dev/null'
+  echo $GIT_SSH_COMMAND
+  export GIT_SSH_COMMAND="ssh -o IdentitiesOnly=yes -i /home/egor/.ssh/id_rsa -F /dev/null"
+  echo $GIT_SSH_COMMAND
   git push origin $SOURCE_BRANCH
 
 	echo "push succ"
