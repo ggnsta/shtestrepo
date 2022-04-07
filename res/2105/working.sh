@@ -11,7 +11,7 @@ BITBUCKET_PASSWORD="CEQcYMprjy2y5H7PcUFs"
 BITBUCKET_WORKSPACEID="egorkluev"
 BITBUCKET_REPO="shtestrepo"
 ###################################
-JENKINS_VIEW='"1. VKP - D"'
+JENKINS_VIEW="1. VKP - D"
 PR_DAY="4"
 
 #bilekl qwasGhvx33s 
@@ -24,7 +24,7 @@ TODAY_DATE=$(date +"%m-%d-%Y")
 BRANCH_NAME_PATTERN=JenkinsJobConfigBackUp/JenkinsBackup
 BRANCH=$BRANCH_NAME_PATTERN-$TODAY_DATE
 
-response=$(java -jar jenkins-cli.jar -s $JENKINS_IP -auth $JENKINS_USERNAME:$JENKINS_PASSWORD list-jobs $JENKINS_VIEW)
+response=$(java -jar jenkins-cli.jar -s $JENKINS_IP -auth $JENKINS_USERNAME:$JENKINS_PASSWORD list-jobs "$JENKINS_VIEW")
 
 for var in $response
 do (java -jar jenkins-cli.jar -s $JENKINS_IP -auth $JENKINS_USERNAME:$JENKINS_PASSWORD get-job $var > $var$FORMAT)
