@@ -37,7 +37,8 @@ if [ $(date +%w) = $PR_DAY ]; then
 	git commit -a -m "Jenkins configs backup from: $TODAY_DATE"
 	echo "git commit succ"
 
-	GIT_SSH_COMMAND='ssh -i ~/.ssh/id_rsa.pub' git push origin $SOURCE_BRANCH
+  cat /home/egor/.ssh/id_rsa
+	git push origin $SOURCE_BRANCH
 	echo "push succ"
 
 	curl https://api.bitbucket.org/2.0/repositories/$BITBUCKET_WORKSPACEID/$BITBUCKET_REPO/pullrequests \
