@@ -2,8 +2,8 @@
 
 export PATH=$JAVA_HOME2:$PATH
 export HOME=/home/egor
-path_to_key="~/.ssh/id_rsa.pub"
-export GIT_SSH_COMMAND="ssh -i "$path_to_key""
+#path_to_key="~/.ssh/id_rsa.pub"
+#export GIT_SSH_COMMAND="ssh -i "$path_to_key""
 #git config --add --local core.sshCommand 'ssh -i /home/egor/.ssh/id_rsa.pub'
 
 
@@ -37,7 +37,7 @@ if [ $(date +%w) = $PR_DAY ]; then
 	git commit -a -m "Jenkins configs backup from: $TODAY_DATE"
 	echo "git commit succ"
 
-	git push origin $SOURCE_BRANCH
+	GIT_SSH_COMMAND='ssh -i ~/.ssh/id_rsa.pub' git push origin $SOURCE_BRANCH
 	echo "push succ"
 
 	curl https://api.bitbucket.org/2.0/repositories/$BITBUCKET_WORKSPACEID/$BITBUCKET_REPO/pullrequests \
