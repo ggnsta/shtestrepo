@@ -2,7 +2,7 @@
 
 export PATH=$JAVA_HOME2:$PATH
 export HOME=/home/egor
-path_to_key="/home/egor/.ssh/id_rsa.pub"
+path_to_key="~/.ssh/id_rsa.pub"
 export GIT_SSH_COMMAND="ssh -i "$path_to_key""
 #git config --add --local core.sshCommand 'ssh -i /home/egor/.ssh/id_rsa.pub'
 
