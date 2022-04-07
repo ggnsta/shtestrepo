@@ -2,7 +2,7 @@
 
 export PATH=$JAVA_HOME2:$PATH
 export HOME=/home/egor
-git config --add --local core.sshCommand 'ssh -i /home/egor/.ssh/id_rsa'
+git config --add --local core.sshCommand 'ssh -i /home/egor/.ssh/id_rsa.pub'
 echo "TRY TRY TRY"
 
 
