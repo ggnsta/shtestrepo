@@ -5,7 +5,7 @@ export HOME=/home/egor
 #path_to_key="~/.ssh/id_rsa.pub"
 #export GIT_SSH_COMMAND="ssh -i "$path_to_key""
 #git config --add --local core.sshCommand 'ssh -i /home/egor/.ssh/id_rsa.pub'
-
+export GIT_SSH_COMMAND='ssh -i /home/egor/.ssh/id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
 
 
 TODAY_DATE=$(date +"%m-%d-%Y")
@@ -24,7 +24,7 @@ done
 #git config --global user.name "Egor Kliuev"
 #git config --global user.email "user.email=egor.kliuev@bilateral.group"
 #Pull request#
+GIT_SSH_COMMAND='ssh -i /home/egor/.ssh/id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
 
-  cat /home/egor/.ssh/id_rsa
+
 ssh -T git@bitbucket.org
-
