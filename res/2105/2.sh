@@ -41,6 +41,7 @@ if [ $(date +%w) = $PR_DAY ]; then
 
   #ssh-add /home/egor/.ssh/id_rsa
   #git push origin $SOURCE_BRANCH
+  eval `ssh-agent -s`
   ssh-agent bash -c 'ssh-add /home/egor/.ssh/id_rsa; git push origin '$SOURCE_BRANCH''
 	echo "push succ"
 
