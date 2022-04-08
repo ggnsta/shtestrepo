@@ -36,13 +36,15 @@ if [ $(date +%w) = $PR_DAY ]; then
 
 	git commit -a -m "Jenkins configs backup from: $TODAY_DATE"
 	echo "git commit succ"
+
   export GIT_SSH_COMMAND="ssh -o IdentitiesOnly=yes -i /home/egor/.ssh/id_rsa -F /dev/null"
   echo $GIT_SSH_COMMAND
 
   #ssh-add /home/egor/.ssh/id_rsa
   #git push origin $SOURCE_BRANCH
-  eval `ssh-agent -s`
+  #eval `ssh-agent -s`
   ssh-agent bash -c 'ssh-add /home/egor/.ssh/id_rsa; git push origin '$SOURCE_BRANCH''
+  git push origin $SOURCE_BRANCH
 	echo "push succ"
 
 	curl https://api.bitbucket.org/2.0/repositories/$BITBUCKET_WORKSPACEID/$BITBUCKET_REPO/pullrequests \
