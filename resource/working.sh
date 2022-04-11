@@ -17,6 +17,7 @@ done
 if [ $(date +%w) = $PR_DAY ]; then
 	git checkout -b $SOURCE_BRANCH
 
+  cd 2105/
 	for var in $response
 	do(git add $var.xml)
 	done
