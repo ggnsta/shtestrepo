@@ -1,3 +1,4 @@
+#!/bin/bash
 TODAY_DATE=$(date +"%m-%d-%Y-%H-%M")
 BRANCH_NAME_PATTERN=JenkinsJobConfigBackUp/JenkinsBackup
 BRANCH=$BRANCH_NAME_PATTERN-$TODAY_DATE
