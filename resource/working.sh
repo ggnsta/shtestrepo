@@ -24,7 +24,7 @@ if [ $(date +%w) = $PR_DAY ]; then
 
 	git commit -a -m "Jenkins configs backup from: $TODAY_DATE"
 
-	git push origin $SOURCE_BRANCH
+	git push -f origin $SOURCE_BRANCH
 
 	curl https://api.bitbucket.org/2.0/repositories/${GIT_URL:18}/pullrequests \
 	    -u $BITBUCKET_USERNAME:$BITBUCKET_PASSWORD \
