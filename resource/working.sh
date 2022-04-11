@@ -1,8 +1,12 @@
 #!/bin/bash
 TODAY_DATE=$(date +"%m-%d-%Y")
 SOURCE_BRANCH=$BRANCH_NAME_PATTERN-$TODAY_DATE
-
-
+echo "2222222222222222222"
+echo $JENKINS_URL
+echo $JENKINS_USERNAME
+echo $JENKINS_PASSWORD
+echo "$JENKINS_VIEW"
+echo "2222222222222222222"
 response=$(java -jar jenkins-cli.jar -s $JENKINS_URL -auth $JENKINS_USERNAME:$JENKINS_PASSWORD list-jobs "$JENKINS_VIEW")
 
 for var in $response
