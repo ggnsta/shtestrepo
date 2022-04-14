@@ -25,8 +25,8 @@ if [ $(date +%w) = $PR_DAY ]; then
 	git push -f origin $SOURCE_BRANCH
 
   echo $GIT_URL
-  echo ${GIT_URL:32}
-	curl https://api.bitbucket.org/2.0/repositories/${GIT_URL:32}/pullrequests \
+  echo ${GIT_URL:18}
+	curl https://api.bitbucket.org/2.0/repositories/${GIT_URL:18}/pullrequests \
 	    -u $BITBUCKET_USERNAME:$BITBUCKET_PASSWORD \
 	    --request POST \
 	    --header 'Content-Type: application/json' \
