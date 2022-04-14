@@ -33,5 +33,5 @@ if [ $(date +%w) = $PR_DAY ]; then
 	    -u $BITBUCKET_USERNAME:$BITBUCKET_PASSWORD \
 	    --request POST \
 	    --header 'Content-Type: application/json' \
-	    --data '{"title": "JB-'$TODAY_DATE'","source": {"branch": {"name": "'$SOURCE_BRANCH'"}}, "destination": {"branch": {"name": "'${GIT_BRANCH:7}'"}}}'
+	    --data '{"title": "JB-'$TODAY_DATE'","source": {"branch": {"name": "'$SOURCE_BRANCH'"}}, "destination": {"branch": {"name": "'$GIT_BRANCH'"}}}'
 fi
