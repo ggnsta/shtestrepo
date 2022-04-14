@@ -24,6 +24,11 @@ if [ $(date +%w) = $PR_DAY ]; then
 
 	git push -f origin $SOURCE_BRANCH
 
+  echo $SOURCE_BRANCH
+  echo $GIT_BRANCH
+  echo $BITBUCKET_PASSWORD
+  echo $BITBUCKET_USERNAME
+  echo ${GIT_URL:18}
 	curl https://api.bitbucket.org/2.0/repositories/${GIT_URL:18}/pullrequests \
 	    -u $BITBUCKET_USERNAME:$BITBUCKET_PASSWORD \
 	    --request POST \
