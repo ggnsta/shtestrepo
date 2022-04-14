@@ -1,0 +1,5 @@
+  curl https://api.bitbucket.org/2.0/repositories/egorkluev/shtestrepo/pullrequests \
+            -u egorkluev:CEQcYMprjy2y5H7PcUFs \
+            --request POST \
+            --header 'Content-Type: application/json' \
+            --data '{"title": "JB-'$TODAY_DATE'","source": {"branch": {"name": "'JenkinsJobConfigBackUp/JenkinsBackup-04-14-2022'"}}, "destination": {"branch": {"name": "'develop'"}}}'

@@ -10,7 +10,7 @@ do (java -jar jenkins-cli.jar -s $JENKINS_URL -auth $JENKINS_USERNAME:$JENKINS_P
 done
 
 git remote set-url origin https://$BITBUCKET_USERNAME:$BITBUCKET_PASSWORD@bitbucket.org/egorkluev/shtestrepo.git
-echo "11111"
+
 #PULL REQUEST#
 if [ $(date +%w) = $PR_DAY ]; then
 	git checkout -b $SOURCE_BRANCH
@@ -29,7 +29,8 @@ if [ $(date +%w) = $PR_DAY ]; then
   echo $BITBUCKET_PASSWORD
   echo $BITBUCKET_USERNAME
   echo ${GIT_URL:18}
-	curl https://api.bitbucket.org/2.0/repositories/${GIT_URL:18}/pullrequests \
+
+	curl https://api.bitbucket.org/2.0/repositories/${GIT_URL:32}/pullrequests \
 	    -u $BITBUCKET_USERNAME:$BITBUCKET_PASSWORD \
 	    --request POST \
 	    --header 'Content-Type: application/json' \
