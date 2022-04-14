@@ -1,4 +1,34 @@
 #!/bin/bash
+
+if [[ -z "${BRANCH_NAME_PATTERN}" ]]; then
+  echo "variable BRANCH_NAME_PATTERN is undefined. Script exits with an error."
+  exit 1
+fi
+if [[ -z "${PR_DAY}" ]]; then
+  echo "variable PR_DAY is undefined. Script exits with an error."
+  exit 1
+fi
+if [[ -z "${JENKINS_USERNAME}" ]]; then
+  echo "variable JENKINS_USERNAME is undefined. Script exits with an error."
+  exit 1
+fi
+if [[ -z "${JENKINS_PASSWORD}" ]]; then
+  echo "variable JENKINS_PASSWORD is undefined. Script exits with an error."
+  exit 1
+fi
+if [[ -z "${JENKINS_VIEW}" ]]; then
+  echo "variable JENKINS_VIEW is undefined. Script exits with an error."
+  exit 1
+fi
+if [[ -z "${BITBUCKET_USERNAME}" ]]; then
+  echo "variable BITBUCKET_USERNAME is undefined. Script exits with an error."
+  exit 1
+fi
+if [[ -z "${BITBUCKET_PASSWORD}" ]]; then
+  echo "variable BITBUCKET_PASSWORD is undefined. Script exits with an error."
+  exit 1
+fi
+
 TODAY_DATE=$(date +"%m-%d-%Y")
 SOURCE_BRANCH=$BRANCH_NAME_PATTERN-$TODAY_DATE
 
