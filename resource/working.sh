@@ -6,10 +6,9 @@ JENKINS_USERNAME=$4
 JENKINS_PASSWORD=$5
 JENKINS_URL=$6
 JENKINS_VIEW=$7
-SOURCE_BRANCH=$8
-TARGET_BRANCH=$9
-PR_DAY=${10}
-BRANCH_NAME_PATTERN=${11}
+TARGET_BRANCH=$8
+PR_DAY=$9
+BRANCH_NAME_PATTERN=${10}
 
 if [[ -z "${BITBUCKET_USERNAME}" ]]; then
   echo "variable BITBUCKET_USERNAME is undefined. Script exits with an error."
@@ -37,10 +36,6 @@ if [[ -z "${JENKINS_URL}" ]]; then
 fi
 if [[ -z "${JENKINS_VIEW}" ]]; then
   echo "variable JENKINS_VIEW is undefined. Script exits with an error."
-  exit 1
-fi
-if [[ -z "${SOURCE_BRANCH}" ]]; then
-  echo "variable SOURCE_BRANCH is undefined. Script exits with an error."
   exit 1
 fi
 if [[ -z "${TARGET_BRANCH}" ]]; then
