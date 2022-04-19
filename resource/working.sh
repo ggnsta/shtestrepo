@@ -66,7 +66,7 @@ do (java -jar jenkins-cli.jar -s $JENKINS_URL -auth $JENKINS_USERNAME:$JENKINS_P
 done
 
 echo "GIT URL: ${GIT_URL:9}"
-git remote set-url origin https://$BITBUCKET_USERNAME:$BITBUCKET_PASSWORD${GIT_URL:9}
+git remote set-url origin https://$BITBUCKET_USERNAME:$BITBUCKET_PASSWORD${GIT_URL}
 
 #PULL REQUEST#
 if [ $(date +%A) = $PR_DAY ]; then
