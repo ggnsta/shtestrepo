@@ -9,6 +9,7 @@ JENKINS_VIEW=$7
 TARGET_BRANCH=$8
 PR_DAY=$9
 BRANCH_NAME_PATTERN=${10}
+COMMIT_MSG=${11}
 
 if [[ -z "${BITBUCKET_USERNAME}" ]]; then
   echo "variable BITBUCKET_USERNAME is undefined. Script exits with an error."
@@ -50,6 +51,10 @@ if [[ -z "${BRANCH_NAME_PATTERN}" ]]; then
   echo "variable BRANCH_NAME_PATTERN is undefined. Script exits with an error."
   exit 1
 fi
+if [[ -z "${COMMIT_MSG}" ]]; then
+  echo "variable COMMIT_MSG is undefined. Script exits with an error."
+  exit 1
+fi
 
 TODAY_DATE=$(date +"%m-%d-%Y")
 SOURCE_BRANCH=$BRANCH_NAME_PATTERN-$TODAY_DATE
@@ -81,5 +86,5 @@ if [ $(date +%w) = $PR_DAY ]; then
 	    -u $BITBUCKET_USERNAME:$BITBUCKET_PASSWORD \
 	    --request POST \
 	    --header 'Content-Type: application/json' \
-	    --data '{"title": "JB-'$TODAY_DATE'","source": {"branch": {"name": "'$SOURCE_BRANCH'"}}, "destination": {"branch": {"name": "'${TARGET_BRANCH:7}'"}}}'
+	    --data '{"title": "'$COMMIT_MSG-$TODAY_DATE'","source": {"branch": {"name": "'$SOURCE_BRANCH'"}}, "destination": {"branch": {"name": "'${TARGET_BRANCH:7}'"}}}'
 fi
