@@ -68,7 +68,7 @@ done
 git remote set-url origin https://$BITBUCKET_USERNAME:$BITBUCKET_PASSWORD@bitbucket.org/egorkluev/shtestrepo.git
 
 #PULL REQUEST#
-if [ $(date +%w) = $PR_DAY ]; then
+if [ $(date +%A) = $PR_DAY ]; then
 	git checkout -b $SOURCE_BRANCH
 
   cd 2105/
@@ -87,5 +87,5 @@ if [ $(date +%w) = $PR_DAY ]; then
 	    --request POST \
 	    --header 'Content-Type: application/json' \
 	    --data '{"title": "'$COMMIT_MSG-$TODAY_DATE'","source": {"branch": {"name": "'$SOURCE_BRANCH'"}}, "destination": {"branch": {"name": "'${TARGET_BRANCH:7}'"}}}'
-else echo "Today is $(date +%a), no push"
+else echo "Today is $(date +%A), but PR_DAY is set on $PR_DAY. Just kept backups, without pushing it to VCS"
 fi
