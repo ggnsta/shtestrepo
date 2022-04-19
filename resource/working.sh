@@ -82,11 +82,7 @@ if [ $(date +%A) = $PR_DAY ]; then
 
 	git push -f origin $SOURCE_BRANCH
 
-	statusCode=$(curl -s -o response.txt -w "%{http_code}" https://api.bitbucket.org/2.0/repositories/${GIT_URL:24}/pullrequests \
-	    -u $BITBUCKET_USERNAME:$BITBUCKET_PASSWORD \
-	    --request POST \
-	    --header 'Content-Type: application/json' \
-	    --data '{"title": "'$COMMIT_MSG-$TODAY_DATE'","source": {"branch": {"name": "'$SOURCE_BRANCH'"}}, "destination": {"branch": {"name": "'${TARGET_BRANCH:7}'"}}}' )
+	statusCode=$(pull_github)
 
   if [ $statusCode != "201" ]; then
     echo "Something went wrong during the pull request:"
@@ -98,3 +94,21 @@ if [ $(date +%A) = $PR_DAY ]; then
 
 else echo "Today is $(date +%A), but PR_DAY is set on $PR_DAY. Just kept backups, without pushing it to VCS"
 fi
+
+pull_github(){
+  echo "github url: ${GIT_URL:18}"
+  curl -s -o response.txt -w "%{http_code}"\
+    -X POST \
+    -H "Accept: application/json" \
+    -H "Authorization: token $BITBUCKET_PASSWORD" \
+    https://api.github.com/repos/${GIT_URL:18}/pulls \
+    -d '{"title":"Amazing new feature","body":"Please pull these awesome changes in!","head":"ggnsta:'$SOURCE_BRANCH'","base":"'${TARGET_BRANCH:7}'"}'
+}
+
+pull_bitbucket(){
+  curl -s -o response.txt -w "%{http_code}" https://api.bitbucket.org/2.0/repositories/${GIT_URL:24}/pullrequests \
+  	    -u $BITBUCKET_USERNAME:$BITBUCKET_PASSWORD \
+  	    --request POST \
+  	    --header 'Content-Type: application/json' \
+  	    --data '{"title": "'$COMMIT_MSG-$TODAY_DATE'","source": {"branch": {"name": "'$SOURCE_BRANCH'"}}, "destination": {"branch": {"name": "'${TARGET_BRANCH:7}'"}}}'
+}
