@@ -73,22 +73,21 @@ if [ $(date +%A) = $PR_DAY ]; then
 
   cd 2105/
 	for var in $response
-	do(git add $var.xml)
+	  do(git add $var.xml)
 	done
 
 	git commit -a -m "Jenkins configs backup from: $TODAY_DATE"
 
 	git push -f origin $SOURCE_BRANCH
 
-  echo $GIT_URL
-  echo ${GIT_URL:18}
 	statusCode=$(curl -s -o response.txt -w "%{http_code}" https://api.bitbucket.org/2.0/repositories/${GIT_URL:18}/pullrequests \
 	    -u $BITBUCKET_USERNAME:$BITBUCKET_PASSWORD \
 	    --request POST \
 	    --header 'Content-Type: application/json' \
 	    --data '{"title": "'$COMMIT_MSG-$TODAY_DATE'","source": {"branch": {"name": "'$SOURCE_BRANCH'"}}, "destination": {"branch": {"name": "'${TARGET_BRANCH:7}'"}}}' )
+
   if [ $statusCode != "201" ]; then
-    echo "something gone wrong:"
+    echo "Something gone wrong:"
     cat response.txt
   else
       echo "Pull sussecful"
