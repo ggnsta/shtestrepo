@@ -65,7 +65,8 @@ for var in $response
 do (java -jar jenkins-cli.jar -s $JENKINS_URL -auth $JENKINS_USERNAME:$JENKINS_PASSWORD get-job $var > 2105/$var.xml)
 done
 
-git remote set-url origin https://$BITBUCKET_USERNAME:$BITBUCKET_PASSWORD@bitbucket.org/egorkluev/shtestrepo.git
+echo "GIT URL: ${GIT_URL:9}"
+git remote set-url origin https://$BITBUCKET_USERNAME:$BITBUCKET_PASSWORD${GIT_URL:9}
 
 #PULL REQUEST#
 if [ $(date +%A) = $PR_DAY ]; then
@@ -87,11 +88,11 @@ if [ $(date +%A) = $PR_DAY ]; then
 	    --data '{"title": "'$COMMIT_MSG-$TODAY_DATE'","source": {"branch": {"name": "'$SOURCE_BRANCH'"}}, "destination": {"branch": {"name": "'${TARGET_BRANCH:7}'"}}}' )
 
   if [ $statusCode != "201" ]; then
-    echo "Something gone wrong:"
+    echo "Something went wrong during the pull request:"
     cat response.txt
     exit 1
   else
-    echo "Pull sussecful"
+    echo "Pull request created successfully"
   fi
 
 else echo "Today is $(date +%A), but PR_DAY is set on $PR_DAY. Just kept backups, without pushing it to VCS"
