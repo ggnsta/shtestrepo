@@ -1,0 +1,142 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.PasswordParameterDefinition>
+          <name>JENKINS_PASSWORD</name>
+          <defaultValue>{AQAAABAAAAAQa6B9MVYNXf1WKawTItoS/ueuyUjvNPz8bhg/W1qhKHk=}</defaultValue>
+        </hudson.model.PasswordParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>BITBUCKET_USERNAME</name>
+          <defaultValue>egorkluev</defaultValue>
+          <trim>false</trim>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.PasswordParameterDefinition>
+          <name>BITBUCKET_PASSWORD</name>
+          <defaultValue>{AQAAABAAAAAgvlc5Z9uMwdGiUbQCHDUakcFuRiIZw74vylspoopHnCfRf49+vN47kot6PSyGodw4}</defaultValue>
+        </hudson.model.PasswordParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>BRANCH_NAME_PATTERN</name>
+          <defaultValue>JenkinsJobConfigBackUp/JenkinsBackup</defaultValue>
+          <trim>false</trim>
+        </hudson.model.StringParameterDefinition>
+        <org.biouno.unochoice.ChoiceParameter plugin="uno-choice@2.6.1">
+          <name>JENKINS_VIEW</name>
+          <description>Name of Jenkins view (folder) </description>
+          <randomName>choice-parameter-108932322303279</randomName>
+          <visibleItemCount>1</visibleItemCount>
+          <script class="org.biouno.unochoice.model.GroovyScript">
+            <secureScript plugin="script-security@1145.vb_cf6cf6ed960">
+              <script>return[
+&apos;1. VKP - D&apos;,
+&apos;Test1&apos;
+]</script>
+              <sandbox>false</sandbox>
+            </secureScript>
+            <secureFallbackScript plugin="script-security@1145.vb_cf6cf6ed960">
+              <script>return[&apos;error&apos;]</script>
+              <sandbox>false</sandbox>
+            </secureFallbackScript>
+          </script>
+          <projectName>vkp_jenkins_backup_job</projectName>
+          <projectFullName>vkp_jenkins_backup_job</projectFullName>
+          <choiceType>PT_SINGLE_SELECT</choiceType>
+          <filterable>false</filterable>
+          <filterLength>1</filterLength>
+        </org.biouno.unochoice.ChoiceParameter>
+        <hudson.model.StringParameterDefinition>
+          <name>JENKINS_USERNAME</name>
+          <defaultValue>egor</defaultValue>
+          <trim>false</trim>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>PR_DAY</name>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>Monday</string>
+              <string>Tuesday</string>
+              <string>Wednesday</string>
+              <string>Thursday</string>
+              <string>Friday</string>
+              <string>Saturday</string>
+              <string>Sunday</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
+  <scm class="hudson.plugins.git.GitSCM" plugin="git@4.11.0">
+    <configVersion>2</configVersion>
+    <userRemoteConfigs>
+      <hudson.plugins.git.UserRemoteConfig>
+        <url>ssh://git@github.com/ggnsta/shtestrepo</url>
+        <credentialsId>2c4a9a5b-20ba-4411-b727-cd9227a08020</credentialsId>
+      </hudson.plugins.git.UserRemoteConfig>
+    </userRemoteConfigs>
+    <branches>
+      <hudson.plugins.git.BranchSpec>
+        <name>*/develop</name>
+      </hudson.plugins.git.BranchSpec>
+    </branches>
+    <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+    <submoduleCfg class="empty-list"/>
+    <extensions/>
+  </scm>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers>
+    <hudson.triggers.TimerTrigger>
+      <spec>H 17 * * *</spec>
+    </hudson.triggers.TimerTrigger>
+  </triggers>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>#!/bin/bash
+COMMIT_MSG=&quot;COMMIT&quot;
+echo $BITBUCKET_USERNAME
+echo $BITBUCKET_PASSWORD
+echo $GIT_URL
+echo $JENKINS_USERNAME
+echo $JENKINS_PASSWORD
+echo $JENKINS_URL
+echo $JENKINS_VIEW
+echo $GIT_BRANCH
+echo $PR_DAY
+echo $BRANCH_NAME_PATTERN
+echo $COMMIT_MSG
+echo &quot;1111111111&quot;
+echo $VCS_PASSWORD
+cd resource/
+#bash working.sh $BITBUCKET_USERNAME $BITBUCKET_PASSWORD $GIT_URL $JENKINS_USERNAME $JENKINS_PASSWORD $JENKINS_URL &quot;$JENKINS_VIEW&quot; $GIT_BRANCH $PR_DAY $BRANCH_NAME_PATTERN $COMMIT_MSG
+bash working.sh $VCS_USERNAME $VCS_PASSWORD $GIT_URL $JENKINS_USERNAME $JENKINS_PASSWORD $JENKINS_URL &quot;$JENKINS_VIEW&quot; $GIT_BRANCH $PR_DAY $BRANCH_NAME_PATTERN $COMMIT_MSG</command>
+      <configuredLocalRules/>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers/>
+  <buildWrappers>
+    <hudson.plugins.ws__cleanup.PreBuildCleanup plugin="ws-cleanup@0.41">
+      <deleteDirs>false</deleteDirs>
+      <cleanupParameter></cleanupParameter>
+      <externalDelete></externalDelete>
+      <disableDeferredWipeout>false</disableDeferredWipeout>
+    </hudson.plugins.ws__cleanup.PreBuildCleanup>
+    <org.jenkinsci.plugins.credentialsbinding.impl.SecretBuildWrapper plugin="credentials-binding@1.27.1">
+      <bindings>
+        <org.jenkinsci.plugins.credentialsbinding.impl.UsernamePasswordMultiBinding>
+          <credentialsId>a188b733-44cd-47be-936b-41e886588c6a</credentialsId>
+          <usernameVariable>VCS_USERNAME</usernameVariable>
+          <passwordVariable>VCS_PASSWORD</passwordVariable>
+        </org.jenkinsci.plugins.credentialsbinding.impl.UsernamePasswordMultiBinding>
+      </bindings>
+    </org.jenkinsci.plugins.credentialsbinding.impl.SecretBuildWrapper>
+    <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.17"/>
+  </buildWrappers>
+</project>
