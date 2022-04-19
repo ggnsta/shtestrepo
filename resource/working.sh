@@ -87,4 +87,5 @@ if [ $(date +%w) = $PR_DAY ]; then
 	    --request POST \
 	    --header 'Content-Type: application/json' \
 	    --data '{"title": "'$COMMIT_MSG-$TODAY_DATE'","source": {"branch": {"name": "'$SOURCE_BRANCH'"}}, "destination": {"branch": {"name": "'${TARGET_BRANCH:7}'"}}}'
+else echo "Today is DOW=$(date +%u), but "
 fi
