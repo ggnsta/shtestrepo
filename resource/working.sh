@@ -66,7 +66,6 @@ do (java -jar jenkins-cli.jar -s $JENKINS_URL -auth $JENKINS_USERNAME:$JENKINS_P
 done
 
 echo "https://$BITBUCKET_USERNAME:$BITBUCKET_PASSWORD${GIT_URL:9}"
-echo "https://$BITBUCKET_USERNAME:$BITBUCKET_PASSWORD@bitbucket.org/egorkluev/shtestrepo.git"
 git remote set-url origin https://$BITBUCKET_USERNAME:$BITBUCKET_PASSWORD${GIT_URL:9}
 
 #PULL REQUEST#
