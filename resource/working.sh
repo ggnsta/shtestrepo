@@ -57,12 +57,12 @@ if [[ -z "${COMMIT_MSG}" ]]; then
 fi
 
 pull_github(){
-  echo "github url: ${GIT_URL:18}"
+  echo "github url: ${GIT_URL:21}"
   curl -s -o response.txt -w "%{http_code}"\
     -X POST \
     -H "Accept: application/json" \
     -H "Authorization: token $BITBUCKET_PASSWORD" \
-    https://api.github.com/repos/${GIT_URL:18}/pulls \
+    https://api.github.com/repos/${GIT_URL:21}/pulls \
     -d '{"title":"Amazing new feature","body":"Please pull these awesome changes in!","head":"ggnsta:'$SOURCE_BRANCH'","base":"'${TARGET_BRANCH:7}'"}'
 }
 
