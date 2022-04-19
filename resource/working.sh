@@ -82,10 +82,13 @@ if [ $(date +%A) = $PR_DAY ]; then
 
   echo $GIT_URL
   echo ${GIT_URL:18}
-	curl https://api.bitbucket.org/2.0/repositories/${GIT_URL:18}/pullrequests \
+	ABC=(curl https://api.bitbucket.org/2.0/repositories/${GIT_URL:18}/pullrequests \
 	    -u $BITBUCKET_USERNAME:$BITBUCKET_PASSWORD \
 	    --request POST \
 	    --header 'Content-Type: application/json' \
-	    --data '{"title": "'$COMMIT_MSG-$TODAY_DATE'","source": {"branch": {"name": "'$SOURCE_BRANCH'"}}, "destination": {"branch": {"name": "'${TARGET_BRANCH:7}'"}}}'
+	    --data '{"title": "'$COMMIT_MSG-$TODAY_DATE'","source": {"branch": {"name": "'$SOURCE_BRANCH'"}}, "destination": {"branch": {"name": "'${TARGET_BRANCH:7}'"}}}' )
 else echo "Today is $(date +%A), but PR_DAY is set on $PR_DAY. Just kept backups, without pushing it to VCS"
 fi
+
+echo "1111111111111"
+echo $ABC
