@@ -100,8 +100,7 @@ if [ $(date +%A) = $PR_DAY ]; then
 
 	git push -f origin $SOURCE_BRANCH
 
-	#statusCode=$(pull_github)
-	pull_github
+	statusCode=$pull_github
 
   if [ $statusCode != "201" ]; then
     echo "Something went wrong during the pull request:"
