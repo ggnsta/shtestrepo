@@ -65,9 +65,9 @@ for var in $response
 do (java -jar jenkins-cli.jar -s $JENKINS_URL -auth $JENKINS_USERNAME:$JENKINS_PASSWORD get-job $var > 2105/$var.xml)
 done
 
-echo "https://$BITBUCKET_USERNAME:$BITBUCKET_PASSWORD${GIT_URL:3}"
+echo "https://$BITBUCKET_USERNAME:$BITBUCKET_PASSWORD${GIT_URL:9}"
 echo "https://$BITBUCKET_USERNAME:$BITBUCKET_PASSWORD@bitbucket.org/egorkluev/shtestrepo.git"
-git remote set-url origin https://$BITBUCKET_USERNAME:$BITBUCKET_PASSWORD${GIT_URL:3}
+git remote set-url origin https://$BITBUCKET_USERNAME:$BITBUCKET_PASSWORD${GIT_URL:9}
 
 #PULL REQUEST#
 if [ $(date +%A) = $PR_DAY ]; then
@@ -82,7 +82,7 @@ if [ $(date +%A) = $PR_DAY ]; then
 
 	git push -f origin $SOURCE_BRANCH
 
-	statusCode=$(curl -s -o response.txt -w "%{http_code}" https://api.bitbucket.org/2.0/repositories/${GIT_URL:18}/pullrequests \
+	statusCode=$(curl -s -o response.txt -w "%{http_code}" https://api.bitbucket.org/2.0/repositories/${GIT_URL:24}/pullrequests \
 	    -u $BITBUCKET_USERNAME:$BITBUCKET_PASSWORD \
 	    --request POST \
 	    --header 'Content-Type: application/json' \
