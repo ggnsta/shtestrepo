@@ -97,8 +97,9 @@ for var in $response
 do (java -jar jenkins-cli.jar -s $JENKINS_URL -auth $JENKINS_USERNAME:$JENKINS_PASSWORD get-job $var > 2105/$var.xml)
 done
 
-git remote set-url origin https://${BITBUCKET_USERNAME}:${BITBUCKET_PASSWORD}@${VCS_WORSPACE}/${VCS_REPO}
-echo "https://${BITBUCKET_USERNAME}:${BITBUCKET_PASSWORD}@${VCS_WORSPACE}/${VCS_REPO}"
+echo "AAAAAA: https://$BITBUCKET_USERNAME:$BITBUCKET_PASSWORD${GIT_URL:9}"
+git remote set-url origin https://$BITBUCKET_USERNAME:$BITBUCKET_PASSWORD${GIT_URL:9}
+
 
 #PULL REQUEST#
 if [ $(date +%A) = $PR_DAY ]; then
