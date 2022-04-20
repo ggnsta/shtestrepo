@@ -63,11 +63,11 @@ parse_git_url(){
   VCS_HOST="${strarr[0]}"
   VCS_WORSPACE="${strarr[1]}"
   VCS_REPO="${strarr[2]}"
-  echo "GIT_URL: ${GIT_URL}"
-  echo "REMOTE_URL: ${REMOTE_URL}"
-  echo "VCS_HOST: ${VCS_HOST}"
-  echo "VCS_WORSPACE: ${VCS_WORSPACE}"
-  echo "VCS_REPO: ${VCS_REPO}"
+  echo "GIT_URL: ${GIT_URL}!"
+  echo "REMOTE_URL: ${REMOTE_URL}!"
+  echo "VCS_HOST: ${VCS_HOST}!"
+  echo "VCS_WORSPACE: ${VCS_WORSPACE}!"
+  echo "VCS_REPO: ${VCS_REPO}!"
 }
 
 pull_github(){
