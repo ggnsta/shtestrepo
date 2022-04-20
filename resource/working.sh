@@ -71,8 +71,6 @@ parse_git_url(){
 }
 
 pull_github(){
-  echo " https://api.github.com/repos/$VCS_WORSPACE/$VCS_REPO/pulls \
-            -d '{"title":"'$COMMIT_MSG-$TODAY_DATE'","body":"","head":"'$VCS_WORSPACE':'$SOURCE_BRANCH'","base":"'${TARGET_BRANCH:7}'"}'"
   curl -s -o response.txt -w "%{http_code}"
     -X POST \
     -H "Accept: application/json" \
