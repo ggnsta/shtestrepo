@@ -57,7 +57,6 @@ if [[ -z "${COMMIT_MSG}" ]]; then
 fi
 
 pull_github(){
-  echo "github url: ${GIT_URL:21}"
   curl -s -o response.txt -w "%{http_code}"\
     -X POST \
     -H "Accept: application/json" \
@@ -98,10 +97,10 @@ if [ $(date +%A) = $PR_DAY ]; then
 
 	git commit -a -m "Jenkins configs backup from: $TODAY_DATE"
 
+
 	git push -f origin $SOURCE_BRANCH
 
 	statusCode=$(pull_github)
-	echo "aaaaaaaa: $statusCode"
 
   if [ $statusCode != "201" ]; then
     echo "Something went wrong during the pull request:"
