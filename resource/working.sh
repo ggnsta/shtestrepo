@@ -63,11 +63,11 @@ parse_git_url(){
   VCS_HOST="${strarr[0]}"
   VCS_WORSPACE="${strarr[1]}"
   VCS_REPO="${strarr[2]:0:-1}"
-  echo "GIT_URL: $GIT_URL"
-  echo "REMOTE_URL: $REMOTE_URL"
-  echo "VCS_HOST: $VCS_HOST"
-  echo "VCS_WORSPACE: $VCS_WORSPACE"
-  echo "VCS_REPO: $VCS_REPO"
+  echo "Spliting GIT_URL: $GIT_URL"
+  echo "1.REMOTE_URL: $REMOTE_URL"
+  echo "2.VCS_HOST: $VCS_HOST"
+  echo "3.VCS_WORSPACE: $VCS_WORSPACE"
+  echo "4.VCS_REPO: $VCS_REPO"
 }
 
 pull_github(){
@@ -80,7 +80,7 @@ pull_github(){
 }
 
 pull_bitbucket(){
-  curl -s -o response.txt -w "%{http_code}" https://api.bitbucket.org/2.0/repositories/${GIT_URL:24}/pullrequests \
+  curl -s -o response.txt -w "%{http_code}" https://api.bitbucket.org/2.0/repositories/$VCS_WORSPACE/$VCS_REPO/pullrequests \
   	    -u $VCS_USERNAME:$VCS_PASSWORD \
   	    --request POST \
   	    --header 'Content-Type: application/json' \
@@ -112,15 +112,15 @@ if [ $(date +%A) = $PR_DAY ]; then
   cd 2105/
 	for var in $response
 	  do(git add $var.xml)
-	  echo "git add: '$var.xml'"
+	  echo "git add: $var.xml"
 	done
 
-  echo -n "Commit: "
+  echo -n "Commit created: "
 	git commit -a -m "Jenkins configs backup from: $TODAY_DATE"
 
-
-	PUSH=$(git push -f origin $SOURCE_BRANCH)
-  echo "Push: $PUSH"
+  git push -f origin $SOURCE_BRANCH
+  echo "Push finished."
+  echo "$VCS_HOST is used."
 
   if [ $VCS_HOST == "github.com" ]; then
     statusCode=$(pull_github)
