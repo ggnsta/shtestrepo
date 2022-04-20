@@ -56,13 +56,27 @@ if [[ -z "${COMMIT_MSG}" ]]; then
   exit 1
 fi
 
+parse_git_url(){
+  readarray -d @ -t strarr <<< "$GIT_URL"
+  REMOTE_URL="${strarr[1]}"
+  readarray -d / -t strarr <<< "$REMOTE_URL"
+  VCS_HOST="${strarr[0]}"
+  VCS_WORSPACE="${strarr[1]}"
+  VCS_REPO="${strarr[2]}"
+  echo "GIT_URL: ${GIT_URL}"
+  echo "REMOTE_URL: ${REMOTE_URL}"
+  echo "VCS_HOST: ${VCS_HOST}"
+  echo "VCS_WORSPACE: ${VCS_WORSPACE}"
+  echo "VCS_REPO: ${VCS_REPO}"
+}
+
 pull_github(){
   curl -s -o response.txt -w "%{http_code}"\
     -X POST \
     -H "Accept: application/json" \
     -H "Authorization: token $BITBUCKET_PASSWORD" \
     https://api.github.com/repos/${GIT_URL:21}/pulls \
-    -d '{"title":"Amazing new feature","body":"Please pull these awesome changes in!","head":"ggnsta:'$SOURCE_BRANCH'","base":"'${TARGET_BRANCH:7}'"}'
+    -d '{"title":"'$COMMIT_MSG-$TODAY_DATE'","body":"","head":"ggnsta:'$SOURCE_BRANCH'","base":"'${TARGET_BRANCH:7}'"}'
 }
 
 pull_bitbucket(){
@@ -75,6 +89,7 @@ pull_bitbucket(){
 
 TODAY_DATE=$(date +"%m-%d-%Y")
 SOURCE_BRANCH=$BRANCH_NAME_PATTERN-$TODAY_DATE
+parse_git_url
 
 response=$(java -jar jenkins-cli.jar -s $JENKINS_URL -auth $JENKINS_USERNAME:$JENKINS_PASSWORD list-jobs "$JENKINS_VIEW")
 
@@ -82,8 +97,6 @@ for var in $response
 do (java -jar jenkins-cli.jar -s $JENKINS_URL -auth $JENKINS_USERNAME:$JENKINS_PASSWORD get-job $var > 2105/$var.xml)
 done
 
-echo $BITBUCKET_PASSWORD
-echo "https://$BITBUCKET_USERNAME:$BITBUCKET_PASSWORD${GIT_URL:9}"
 git remote set-url origin https://$BITBUCKET_USERNAME:$BITBUCKET_PASSWORD${GIT_URL:9}
 
 #PULL REQUEST#
@@ -96,7 +109,6 @@ if [ $(date +%A) = $PR_DAY ]; then
 	done
 
 	git commit -a -m "Jenkins configs backup from: $TODAY_DATE"
-
 
 	git push -f origin $SOURCE_BRANCH
 
