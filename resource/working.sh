@@ -77,9 +77,6 @@ pull_github(){
     -H "Authorization: token $VCS_PASSWORD" \
     https://api.github.com/repos/$VCS_WORSPACE/$VCS_REPO/pulls \
     -d '{"title":"'$COMMIT_MSG-$TODAY_DATE'","body":"","head":"'$VCS_WORSPACE':'$SOURCE_BRANCH'","base":"'${TARGET_BRANCH:7}'"}'
-
-    echo "https://api.github.com/repos/$VCS_WORSPACE/$VCS_REPO/pulls"
-    echo '{"title":"'$COMMIT_MSG-$TODAY_DATE'","body":"","head":"'$VCS_WORSPACE':'$SOURCE_BRANCH'","base":"'${TARGET_BRANCH:7}'"}'
 }
 
 pull_bitbucket(){
@@ -124,6 +121,8 @@ if [ $(date +%A) = $PR_DAY ]; then
   git push -f origin $SOURCE_BRANCH
   echo "Push finished."
   echo "$VCS_HOST is used."
+   echo "https://api.github.com/repos/$VCS_WORSPACE/$VCS_REPO/pulls"
+      echo '{"title":"'$COMMIT_MSG-$TODAY_DATE'","body":"","head":"'$VCS_WORSPACE':'$SOURCE_BRANCH'","base":"'${TARGET_BRANCH:7}'"}'
 
   if [ $VCS_HOST == "github.com" ]; then
     statusCode=$(pull_github)
