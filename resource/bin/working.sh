@@ -71,10 +71,6 @@ if [[ -z "${BRANCH_NAME_PATTERN}" ]]; then
   echo "variable BRANCH_NAME_PATTERN is undefined. Script exits with an error."
   exit 1
 fi
-if [[ -z "${COMMIT_MSG}" ]]; then
-  echo "variable COMMIT_MSG is undefined. Script exits with an error."
-  exit 1
-fi
 
 parse_git_url(){
   readarray -d @ -t strarr <<< "$GIT_URL"
