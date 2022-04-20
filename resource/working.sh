@@ -93,7 +93,7 @@ SOURCE_BRANCH=$BRANCH_NAME_PATTERN-$TODAY_DATE
 parse_git_url
 
 response=$(java -jar jenkins-cli.jar -s $JENKINS_URL -auth $JENKINS_USERNAME:$JENKINS_PASSWORD list-jobs "$JENKINS_VIEW")
-echo "Getting a list of all jobs for '$JENKINS_VIEW': $response"
+echo "Getting a list of all jobs for '$JENKINS_VIEW':\n $response"
 
 for var in $response
 do
@@ -115,8 +115,10 @@ if [ $(date +%A) = $PR_DAY ]; then
 	  echo "git add: '$var.xml'"
 	done
 
+  echo -n "Commit: "
 	git commit -a -m "Jenkins configs backup from: $TODAY_DATE"
 
+  echo -n "Push: "
 	git push -f origin $SOURCE_BRANCH
 
   if [ $VCS_HOST == "github.com" ]; then
