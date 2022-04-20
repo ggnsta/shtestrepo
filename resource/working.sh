@@ -71,7 +71,7 @@ parse_git_url(){
 }
 
 pull_github(){
-  curl -s -o response.txt -w "%{http_code}"
+  curl -s -o response.txt -w "%{http_code}"\
     -X POST \
     -H "Accept: application/json" \
     -H "Authorization: token $BITBUCKET_PASSWORD" \
