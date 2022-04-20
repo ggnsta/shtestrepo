@@ -80,7 +80,7 @@ pull_github(){
 }
 
 pull_bitbucket(){
-  curl  https://api.bitbucket.org/2.0/repositories/$VCS_WORSPACE/$VCS_REPO/pullrequests \
+  curl -s -o response.txt -w "%{http_code}" https://api.bitbucket.org/2.0/repositories/$VCS_WORSPACE/$VCS_REPO/pullrequests \
   	    -u $VCS_USERNAME:$VCS_PASSWORD \
   	    --request POST \
   	    --header 'Content-Type: application/json' \
@@ -136,6 +136,7 @@ if [ $(date +%A) = $PR_DAY ]; then
     cat response.txt
     exit 1
   else
+    cat response.txt
     echo "Pull request created successfully"
   fi
 
