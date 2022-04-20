@@ -1,6 +1,6 @@
 #!/bin/bash
-BITBUCKET_USERNAME=${1}
-BITBUCKET_PASSWORD=${2}
+VCS_USERNAME=${1}
+VCS_PASSWORD=${2}
 GIT_URL=${3}
 JENKINS_USERNAME=${4}
 JENKINS_PASSWORD=${5}
@@ -11,12 +11,12 @@ PR_DAY=${9}
 BRANCH_NAME_PATTERN=${10}
 COMMIT_MSG=${11}
 
-if [[ -z "${BITBUCKET_USERNAME}" ]]; then
-  echo "variable BITBUCKET_USERNAME is undefined. Script exits with an error."
+if [[ -z "${VCS_USERNAME}" ]]; then
+  echo "variable VCS_USERNAME is undefined. Script exits with an error."
   exit 1
 fi
-if [[ -z "${BITBUCKET_PASSWORD}" ]]; then
-  echo "variable BITBUCKET_PASSWORD is undefined. Script exits with an error."
+if [[ -z "${VCS_PASSWORD}" ]]; then
+  echo "variable VCS_PASSWORD is undefined. Script exits with an error."
   exit 1
 fi
 if [[ -z "${GIT_URL}" ]]; then
@@ -40,7 +40,7 @@ if [[ -z "${JENKINS_VIEW}" ]]; then
   exit 1
 fi
 if [[ -z "${TARGET_BRANCH}" ]]; then
-  echo "variable SOURCE_BRANCH is undefined. Script exits with an error."
+  echo "variable TARGET_BRANCH is undefined. Script exits with an error."
   exit 1
 fi
 if [[ -z "${PR_DAY}" ]]; then
@@ -74,38 +74,45 @@ pull_github(){
   curl -s -o response.txt -w "%{http_code}"\
     -X POST \
     -H "Accept: application/json" \
-    -H "Authorization: token $BITBUCKET_PASSWORD" \
+    -H "Authorization: token $VCS_PASSWORD" \
     https://api.github.com/repos/$VCS_WORSPACE/$VCS_REPO/pulls \
     -d '{"title":"'$COMMIT_MSG-$TODAY_DATE'","body":"","head":"'$VCS_WORSPACE':'$SOURCE_BRANCH'","base":"'${TARGET_BRANCH:7}'"}'
 }
 
 pull_bitbucket(){
   curl -s -o response.txt -w "%{http_code}" https://api.bitbucket.org/2.0/repositories/${GIT_URL:24}/pullrequests \
-  	    -u $BITBUCKET_USERNAME:$BITBUCKET_PASSWORD \
+  	    -u $VCS_USERNAME:$VCS_PASSWORD \
   	    --request POST \
   	    --header 'Content-Type: application/json' \
   	    --data '{"title": "'$COMMIT_MSG-$TODAY_DATE'","source": {"branch": {"name": "'$SOURCE_BRANCH'"}}, "destination": {"branch": {"name": "'${TARGET_BRANCH:7}'"}}}'
 }
 
+#Begin of script
 TODAY_DATE=$(date +"%m-%d-%Y")
 SOURCE_BRANCH=$BRANCH_NAME_PATTERN-$TODAY_DATE
 parse_git_url
 
 response=$(java -jar jenkins-cli.jar -s $JENKINS_URL -auth $JENKINS_USERNAME:$JENKINS_PASSWORD list-jobs "$JENKINS_VIEW")
+echo "Getting a list of all jobs for '$JENKINS_VIEW': $response"
 
 for var in $response
-do (java -jar jenkins-cli.jar -s $JENKINS_URL -auth $JENKINS_USERNAME:$JENKINS_PASSWORD get-job $var > 2105/$var.xml)
+do
+  (java -jar jenkins-cli.jar -s $JENKINS_URL -auth $JENKINS_USERNAME:$JENKINS_PASSWORD get-job $var > 2105/$var.xml)
+  echo "Getting configuration for '$var'"
 done
-
-git remote set-url origin https://$BITBUCKET_USERNAME:$BITBUCKET_PASSWORD@$REMOTE_URL
 
 #PULL REQUEST#
 if [ $(date +%A) = $PR_DAY ]; then
+
+  echo "Setting remote origin to: https://$VCS_USERNAME:$VCS_PASSWORD@$REMOTE_URL"
+  git remote set-url origin https://$VCS_USERNAME:$VCS_PASSWORD@$REMOTE_URL
+
 	git checkout -b $SOURCE_BRANCH
 
   cd 2105/
 	for var in $response
 	  do(git add $var.xml)
+	  echo "git add: '$var.xml'"
 	done
 
 	git commit -a -m "Jenkins configs backup from: $TODAY_DATE"
