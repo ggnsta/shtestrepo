@@ -146,3 +146,4 @@ if [ $(date +%A) = $PR_DAY ]; then
 else echo "Today is $(date +%A), but PR_DAY is set on $PR_DAY. Just kept backups, without pushing it to VCS"
 fi
 
+
