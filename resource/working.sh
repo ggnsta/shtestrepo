@@ -63,6 +63,9 @@ parse_git_url(){
   VCS_HOST="${strarr[0]}"
   VCS_WORSPACE="${strarr[1]}"
   VCS_REPO="${strarr[2]:0:-1}"
+  if [ $VCS_HOST == "github.com" ]; then
+    VCS_REPO=${VCS_REPO:0:-4}
+  fi
   echo "Spliting GIT_URL: $GIT_URL"
   echo "1.REMOTE_URL: $REMOTE_URL"
   echo "2.VCS_HOST: $VCS_HOST"
