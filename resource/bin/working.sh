@@ -100,7 +100,7 @@ echo "Getting a list of all jobs for '$JENKINS_VIEW':\n $response"
 
 for var in $response
 do
-  (java -jar jenkins-cli.jar -s $JENKINS_URL -auth $JENKINS_USERNAME:$JENKINS_PASSWORD get-job $var > /../2105/$var.xml)
+  (java -jar jenkins-cli.jar -s $JENKINS_URL -auth $JENKINS_USERNAME:$JENKINS_PASSWORD get-job $var > ../2105/$var.xml)
   echo "Getting configuration for '$var'"
 done
 
