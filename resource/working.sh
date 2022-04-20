@@ -77,6 +77,9 @@ pull_github(){
     -H "Authorization: token $VCS_PASSWORD" \
     https://api.github.com/repos/$VCS_WORSPACE/$VCS_REPO/pulls \
     -d '{"title":"'$COMMIT_MSG-$TODAY_DATE'","body":"","head":"'$VCS_WORSPACE':'$SOURCE_BRANCH'","base":"'${TARGET_BRANCH:7}'"}'
+
+    echo "https://api.github.com/repos/$VCS_WORSPACE/$VCS_REPO/pulls"
+    echo '{"title":"'$COMMIT_MSG-$TODAY_DATE'","body":"","head":"'$VCS_WORSPACE':'$SOURCE_BRANCH'","base":"'${TARGET_BRANCH:7}'"}'
 }
 
 pull_bitbucket(){
