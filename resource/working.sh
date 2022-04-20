@@ -118,8 +118,9 @@ if [ $(date +%A) = $PR_DAY ]; then
   echo -n "Commit: "
 	git commit -a -m "Jenkins configs backup from: $TODAY_DATE"
 
-  echo -n "Push: "
-	git push -f origin $SOURCE_BRANCH
+
+	PUSH=$(git push -f origin $SOURCE_BRANCH)
+  echo "Push: $PUSH"
 
   if [ $VCS_HOST == "github.com" ]; then
     statusCode=$(pull_github)
