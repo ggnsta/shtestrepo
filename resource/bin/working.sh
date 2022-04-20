@@ -19,7 +19,6 @@
 #8)$TARGET_BRANCH-The name of the remote branch into which the pull request will be created.
 #9)$PR_DAY-The day of the week on which the pull request will be created. The day should start with a capital letter, like 'Monday'.
 #10)$BRANCH_NAME_PATTERN-Specifies name of  generated branches.
-#11)$COMMIT_MSG-Defines commit message.
 
 VCS_USERNAME=${1}
 VCS_PASSWORD=${2}
@@ -31,7 +30,6 @@ JENKINS_VIEW=${7}
 TARGET_BRANCH=${8}
 PR_DAY=${9}
 BRANCH_NAME_PATTERN=${10}
-COMMIT_MSG=${11}
 
 if [[ -z "${VCS_USERNAME}" ]]; then
   echo "variable VCS_USERNAME is undefined. Script exits with an error."
@@ -101,7 +99,7 @@ pull_github(){
     -H "Accept: application/json" \
     -H "Authorization: token $VCS_PASSWORD" \
     https://api.github.com/repos/$VCS_WORSPACE/$VCS_REPO/pulls \
-    -d '{"title":"'$COMMIT_MSG-$TODAY_DATE'","body":"","head":"'$VCS_WORSPACE':'$SOURCE_BRANCH'","base":"'${TARGET_BRANCH:7}'"}'
+    -d '{"title":"JB-'$TODAY_DATE'","body":"","head":"'$VCS_WORSPACE':'$SOURCE_BRANCH'","base":"'${TARGET_BRANCH:7}'"}'
 }
 
 pull_bitbucket(){
@@ -109,7 +107,7 @@ pull_bitbucket(){
   	    -u $VCS_USERNAME:$VCS_PASSWORD \
   	    --request POST \
   	    --header 'Content-Type: application/json' \
-  	    --data '{"title": "'$COMMIT_MSG-$TODAY_DATE'","source": {"branch": {"name": "'$SOURCE_BRANCH'"}}, "destination": {"branch": {"name": "'${TARGET_BRANCH:7}'"}}}'
+  	    --data '{"title": "JB-'$TODAY_DATE'","source": {"branch": {"name": "'$SOURCE_BRANCH'"}}, "destination": {"branch": {"name": "'${TARGET_BRANCH:7}'"}}}'
 }
 
 #Begin of script
