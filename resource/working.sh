@@ -58,11 +58,11 @@ fi
 
 parse_git_url(){
   readarray -d @ -t strarr <<< "$GIT_URL"
-  REMOTE_URL="${strarr[1]:0:-2}"
+  REMOTE_URL="${strarr[1]:0:-1}"
   readarray -d / -t strarr <<< "$REMOTE_URL"
   VCS_HOST="${strarr[0]}"
   VCS_WORSPACE="${strarr[1]}"
-  VCS_REPO="${strarr[2]:0:-2}"
+  VCS_REPO="${strarr[2]:0:-1}"
   echo "GIT_URL: $GIT_URL!"
   echo "REMOTE_URL: $REMOTE_URL!"
   echo "VCS_HOST: $VCS_HOST"
