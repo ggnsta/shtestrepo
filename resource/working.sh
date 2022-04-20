@@ -112,7 +112,7 @@ if [ $(date +%A) = $PR_DAY ]; then
 
 	git push -f origin $SOURCE_BRANCH
 
-  echo "https://api.github.com/repos/$VCS_WORSPACE/$VCS_REPO/pulls"
+  echo 'https://api.github.com/repos/'$VCS_WORSPACE'/'$VCS_REPO'/pulls'
   echo '{"title":"'$COMMIT_MSG-$TODAY_DATE'","body":"","head":"'$VCS_WORSPACE':'$SOURCE_BRANCH'","base":"'${TARGET_BRANCH:7}'"}'
 	statusCode=$(pull_github)
 
