@@ -1,4 +1,26 @@
 #!/bin/bash
+#This is a backup script for jenkins jobs.
+#Which, using jenkins-cli.jar, gets the configs of all jobs in a specific view and saves them in the code base.
+#Also, this script saves system configuration changes in VCS hosting.(GitHub or Bitbucket).
+#Required parameters:
+#1) $VCS_USERNAME-username in VCS hosting. (Not email)
+#2) $VCS_PASSWORD-application password(token) in VCS hosting. You need token with write permission  for pushing and creating pull requests.
+# Can create here:
+          #1)https://bitbucket.org/account/settings/app-passwords/
+          #2)https://github.com/settings/tokens
+#3)$GIT_URL-Specify the URL of the git repository. This uses the same syntax as your git clone command.
+  #Example: <git@bitbucket.org/pfistervkp/vkp-migration.git>
+  #This parameter is taken from the "Source Code Management" section. In jenkins job configuration.
+  #Also this parameter determines which VCS hosting is used to create the pull request.
+#4)$JENKINS_USERNAME-jenkins account name. This account must have access to all jobs and their configurations.
+#5)$JENKINS_PASSWORD-account password above.
+#6)$JENKINS_URL-Full URL of Jenkins, like http://server:port/jenkins/
+#7)$JENKINS_VIEW-Determines from which View in jenkins, the jobs will be backed up. If the view name contains spaces - wrap it in ' '
+#8)$TARGET_BRANCH-The name of the remote branch into which the pull request will be created.
+#9)$PR_DAY-The day of the week on which the pull request will be created. The day should start with a capital letter, like 'Monday'.
+#10)$BRANCH_NAME_PATTERN-Specifies name of  generated branches.
+#11)$COMMIT_MSG-Defines commit message.
+
 VCS_USERNAME=${1}
 VCS_PASSWORD=${2}
 GIT_URL=${3}
