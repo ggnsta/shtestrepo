@@ -136,7 +136,6 @@ if [ $(date +%A) = $PR_DAY ]; then
     cat response.txt
     exit 1
   else
-    cat response.txt
     echo "Pull request created successfully"
   fi
 
