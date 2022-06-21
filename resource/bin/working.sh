@@ -139,7 +139,6 @@ if [ $(date +%A) = $PR_DAY ]; then
 	  echo "No difference detected, finish script: "$commitResult
 	  exit 0
 	fi
-	echo $commitResult
 	echo -n "Commit created: "
 
   git push -f origin $SOURCE_BRANCH
