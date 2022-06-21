@@ -134,9 +134,11 @@ if [ $(date +%A) = $PR_DAY ]; then
 	  echo "git add: $var.xml"
 	done
 
-
-	var123=$(git commit -a -m "Jenkins configs backup from: $TODAY_DATE")
-	echo $var123
+	commitResult=$(git commit -a -m "Jenkins configs backup from: $TODAY_DATE")
+	if [[ $commitResult == *"nothing to commit, working tree clean"* ]]; then
+	  echo "pidor"
+	fi
+	echo $commitResult
 	echo -n "Commit created: "
 
   git push -f origin $SOURCE_BRANCH
