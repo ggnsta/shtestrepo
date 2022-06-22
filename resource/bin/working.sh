@@ -89,12 +89,6 @@ parse_git_url(){
   echo "4.VCS_REPO: $VCS_REPO"
 }
 
-delete_working_branch(){
-  #git checkout $TARGET_BRANCH
-  echo "gaaaaaaaaai"
-  #git branch -D $SOURCE_BRANCH
-}
-
 pull_github(){
   curl -s -o response.txt -w "%{http_code}"\
     -X POST \
@@ -109,7 +103,7 @@ pull_bitbucket(){
   	    -u $VCS_USERNAME:$VCS_PASSWORD \
   	    --request POST \
   	    --header 'Content-Type: application/json' \
-  	    --data '{"title": "JB-'$TODAY_DATE'","source": {"branch": {"name": "'$SOURCE_BRANCH'"}}, "destination": {"branch": {"name": "'${TARGET_BRANCH:7}'"}}}'
+  	    --data '{"title": "JB-'$TODAY_DATE'","source": {"branch": {"name": "'$SOURCE_BRANCH'"}}, "destination": {"branch": {"name": "'${TARGET_BRANCH:7}'"}}, "close_source_branch":"true"}'
 }
 
 #Begin of script
@@ -143,7 +137,6 @@ if [ $(date +%A) = $PR_DAY ]; then
 	commitResult=$(git commit -a -m "Jenkins configs backup from: $TODAY_DATE")
 	if [[ $commitResult == *"nothing to commit, working tree clean"* ]]; then
 	  echo "No difference detected, finish script: "$commitResult
-	  delete_working_branch
 	  exit 0
 	fi
 	echo -n "Commit created: "
@@ -159,18 +152,15 @@ if [ $(date +%A) = $PR_DAY ]; then
     statusCode=$(pull_bitbucket)
   else
     echo "Unknown VCS: $VCS_HOST"
-    delete_working_branch
     exit 1
   fi
 
   if [ $statusCode != "201" ]; then
     echo "Something went wrong during the pull request:"
     cat response.txt
-    delete_working_branch
     exit 1
   else
     echo "Pull request created successfully"
-    #delete_working_branch
   fi
 
 else echo "Today is $(date +%A), but PR_DAY is set on $PR_DAY. Just kept backups, without pushing it to VCS"
