@@ -103,7 +103,7 @@ pull_bitbucket(){
   	    -u $VCS_USERNAME:$VCS_PASSWORD \
   	    --request POST \
   	    --header 'Content-Type: application/json' \
-  	    --data '{"title": "JB-'$TODAY_DATE'","source": {"branch": {"name": "'$SOURCE_BRANCH'"}}, "destination": {"branch": {"name": "'${TARGET_BRANCH:7}'"}}}'
+  	    --data '{"title": "JB-'$TODAY_DATE'","source": {"branch": {"name": "'$SOURCE_BRANCH'"}}, "destination": {"branch": {"name": "'${TARGET_BRANCH:7}'"}}, "close_source_branch":"true"}'
 }
 
 #Begin of script
