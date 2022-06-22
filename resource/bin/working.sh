@@ -170,7 +170,7 @@ if [ $(date +%A) = $PR_DAY ]; then
     exit 1
   else
     echo "Pull request created successfully"
-    delete_working_branch
+    #delete_working_branch
   fi
 
 else echo "Today is $(date +%A), but PR_DAY is set on $PR_DAY. Just kept backups, without pushing it to VCS"
