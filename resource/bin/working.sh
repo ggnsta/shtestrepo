@@ -90,7 +90,7 @@ parse_git_url(){
 }
 
 delete_working_branch(){
-  git checkout $TARGET_BRANCH
+  git switch $TARGET_BRANCH
   echo "gaaaaaaaaai"
   git branch -D $SOURCE_BRANCH
 }
