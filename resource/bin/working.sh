@@ -97,6 +97,16 @@ parse_git_url(){
   echo "4.VCS_REPO: $VCS_REPO"
 }
 
+set_remote(){
+    if [[ "$GIT_URL" == *"$SSH"* ]]; then
+       echo "Setting remote origin to: https://$VCS_USERNAME:$VCS_PASSWORD@$REMOTE_URL"
+       git remote set-url origin https://$VCS_USERNAME:$VCS_PASSWORD@$REMOTE_URL
+    else
+      echo "Setting remote origin to: git@$VCS_HOST:$VCS_WORSPACE/$VCS_REPO"
+       git remote set-url origin git@$VCS_HOST:$VCS_WORSPACE/$VCS_REPO
+    fi
+}
+
 pull_github(){
   curl -s -o response.txt -w "%{http_code}"\
     -X POST \
@@ -131,8 +141,7 @@ done
 #PULL REQUEST#
 if [ $(date +%A) = $PR_DAY ]; then
 
-  echo "Setting remote origin to: https://$VCS_USERNAME:$VCS_PASSWORD@$REMOTE_URL"
-  git remote set-url origin https://$VCS_USERNAME:$VCS_PASSWORD@$REMOTE_URL
+  set_remote
 
 	git checkout -b $SOURCE_BRANCH
 
@@ -150,7 +159,6 @@ if [ $(date +%A) = $PR_DAY ]; then
   echo "$VCS_HOST is used."
 
   if [ $VCS_HOST == "github.com" ]; then
-    echo "Githuuuuuuuuuuuuuub '$TARGET_BRANCH:7'"
     statusCode=$(pull_github)
   elif [ $VCS_HOST == "bitbucket.org" ]; then
     statusCode=$(pull_bitbucket)
