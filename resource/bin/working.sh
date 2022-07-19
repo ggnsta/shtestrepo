@@ -80,11 +80,8 @@ parse_git_url(){
   fi
   REMOTE_URL=${REMOTE_URL:4}
 
-  ARRAY=($(awk -F '[:/@]' '{$1=$1} 1' <<< "${BUF}"))
+  ARRAY=($(awk -F '[:/@]' '{$1=$1} 1' <<< "${REMOTE_URL}"))
 
-  echo ${ARRAY[0]}
-   echo ${ARRAY[1]}
-    echo ${ARRAY[2]}
   VCS_HOST=${ARRAY[0]}
   VCS_WORSPACE=${ARRAY[1]}
   VCS_REPO=${ARRAY[2]}
