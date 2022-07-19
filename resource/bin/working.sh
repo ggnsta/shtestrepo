@@ -73,19 +73,15 @@ if [[ -z "${BRANCH_NAME_PATTERN}" ]]; then
 fi
 
 parse_git_url(){
-  SSH='ssh://'
-  REMOTE_URL=$GIT_URL
-  if [[ "$GIT_URL" == *"$SSH"* ]]; then
-    REMOTE_URL=${REMOTE_URL:6}
+  readarray -d @ -t strarr <<< "$GIT_URL"
+  REMOTE_URL="${strarr[1]:0:-1}"
+  readarray -d / -t strarr <<< "$REMOTE_URL"
+  VCS_HOST="${strarr[0]}"
+  VCS_WORSPACE="${strarr[1]}"
+  VCS_REPO="${strarr[2]:0:-1}"
+  if [ $VCS_HOST == "github.com" ]; then
+    VCS_REPO=${VCS_REPO:0:-4}
   fi
-  REMOTE_URL=${REMOTE_URL:4}
-
-  ARRAY=($(awk -F '[:/@]' '{$1=$1} 1' <<< "${REMOTE_URL}"))
-
-  VCS_HOST=${ARRAY[0]}
-  VCS_WORSPACE=${ARRAY[1]}
-  VCS_REPO=${ARRAY[2]}
-
   echo "Spliting GIT_URL: $GIT_URL"
   echo "1.REMOTE_URL: $REMOTE_URL"
   echo "2.VCS_HOST: $VCS_HOST"
@@ -107,7 +103,7 @@ pull_bitbucket(){
   	    -u $VCS_USERNAME:$VCS_PASSWORD \
   	    --request POST \
   	    --header 'Content-Type: application/json' \
-  	    --data '{"title": "JB-'$TODAY_DATE'","source": {"branch": {"name": "'$SOURCE_BRANCH'"}}, "destination": {"branch": {"name": "'${TARGET_BRANCH:7}'"}}}'
+  	    --data '{"title": "JB-'$TODAY_DATE'","source": {"branch": {"name": "'$SOURCE_BRANCH'"}}, "destination": {"branch": {"name": "'${TARGET_BRANCH:7}'"}}, "close_source_branch":"true"}'
 }
 
 #Begin of script
@@ -138,15 +134,18 @@ if [ $(date +%A) = $PR_DAY ]; then
 	  echo "git add: $var.xml"
 	done
 
+  commitResult=$(git commit -a -m "Jenkins configs backup from: $TODAY_DATE")
+  if [[ $commitResult == *"nothing to commit, working tree clean"* ]]; then
+  	echo "No difference detected, finish script: "$commitResult
+  	exit 0
+  fi
   echo -n "Commit created: "
-	git commit -a -m "Jenkins configs backup from: $TODAY_DATE"
 
   git push -f origin $SOURCE_BRANCH
   echo "Push finished."
   echo "$VCS_HOST is used."
 
   if [ $VCS_HOST == "github.com" ]; then
-    echo "Githuuuuuuuuuuuuuub '$TARGET_BRANCH:7'"
     statusCode=$(pull_github)
   elif [ $VCS_HOST == "bitbucket.org" ]; then
     statusCode=$(pull_bitbucket)
