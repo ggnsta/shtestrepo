@@ -103,7 +103,7 @@ pull_bitbucket(){
   	    -u $VCS_USERNAME:$VCS_PASSWORD \
   	    --request POST \
   	    --header 'Content-Type: application/json' \
-  	    --data '{"title": "JB-'$TODAY_DATE'","source": {"branch": {"name": "'$SOURCE_BRANCH'"}}, "destination": {"branch": {"name": "'${TARGET_BRANCH:7}'"}}, "close_source_branch":"true"}'
+  	    --data '{"title": "JB-'$TODAY_DATE'","source": {"branch": {"name": "'$SOURCE_BRANCH'"}}, "destination": {"branch": {"name": "'${TARGET_BRANCH:7}'"}}}'
 }
 
 #Begin of script
@@ -134,17 +134,12 @@ if [ $(date +%A) = $PR_DAY ]; then
 	  echo "git add: $var.xml"
 	done
 
-	commitResult=$(git commit -a -m "Jenkins configs backup from: $TODAY_DATE")
-	if [[ $commitResult == *"nothing to commit, working tree clean"* ]]; then
-	  echo "No difference detected, finish script: "$commitResult
-	  exit 0
-	fi
-	echo -n "Commit created: "
+  echo -n "Commit created: "
+	git commit -a -m "Jenkins configs backup from: $TODAY_DATE"
 
   git push -f origin $SOURCE_BRANCH
   echo "Push finished."
   echo "$VCS_HOST is used."
-  echo "password: $VCS_PASSWORD"
 
   if [ $VCS_HOST == "github.com" ]; then
     statusCode=$(pull_github)
