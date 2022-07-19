@@ -73,15 +73,19 @@ if [[ -z "${BRANCH_NAME_PATTERN}" ]]; then
 fi
 
 parse_git_url(){
-  readarray -d @ -t strarr <<< "$GIT_URL"
-  REMOTE_URL="${strarr[1]:0:-1}"
-  readarray -d / -t strarr <<< "$REMOTE_URL"
-  VCS_HOST="${strarr[0]}"
-  VCS_WORSPACE="${strarr[1]}"
-  VCS_REPO="${strarr[2]:0:-1}"
-  if [ $VCS_HOST == "github.com" ]; then
-    VCS_REPO=${VCS_REPO:0:-4}
+  SSH='ssh://'
+  REMOTE_URL=$GIT_URL
+  if [[ "$GIT_URL" == *"$SSH"* ]]; then
+    REMOTE_URL=${STR:6}
   fi
+  REMOTE_URL=${REMOTE_URL:4}
+
+  ARRAY=($(awk -F '[:/@]' '{$1=$1} 1' <<< "${BUF}"))
+
+  VCS_HOST=${ARRAY[0]}
+  VCS_WORSPACE=${ARRAY[1]}
+  VCS_REPO=${ARRAY[2]}
+
   echo "Spliting GIT_URL: $GIT_URL"
   echo "1.REMOTE_URL: $REMOTE_URL"
   echo "2.VCS_HOST: $VCS_HOST"
