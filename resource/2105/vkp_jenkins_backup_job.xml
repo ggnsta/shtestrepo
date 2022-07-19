@@ -75,7 +75,7 @@
     <userRemoteConfigs>
       <hudson.plugins.git.UserRemoteConfig>
         <url>ssh://git@bitbucket.org/egorkluev/shtestrepo.git</url>
-        <credentialsId>id_rsa</credentialsId>
+        <credentialsId>jenkins</credentialsId>
       </hudson.plugins.git.UserRemoteConfig>
     </userRemoteConfigs>
     <branches>
@@ -101,6 +101,10 @@
     <hudson.tasks.Shell>
       <command>#!/bin/bash
 COMMIT_MSG=&quot;COMMIT&quot;
+echo $BITBUCKET_REPOSITORY_UUID
+echo $BITBUCKET_REPOSITORY_ID
+echo $BITBUCKET_REPOSITORY_URL
+echo ###########################################################
 echo $VCS_USERNAME
 echo $VCS_PASSWORD
 echo $GIT_URL
