@@ -76,7 +76,7 @@ parse_git_url(){
   SSH='ssh://'
   REMOTE_URL=$GIT_URL
   if [[ "$GIT_URL" == *"$SSH"* ]]; then
-    REMOTE_URL=${STR:6}
+    REMOTE_URL=${REMOTE_URL:6}
   fi
   REMOTE_URL=${REMOTE_URL:4}
 
