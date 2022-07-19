@@ -100,7 +100,7 @@ parse_git_url(){
 set_remote(){
     BUF=$REMOTE_URL
     if [[ "$GIT_URL" == *"$SSH"* ]]; then
-        BUF="$BUF" | tr : /
+       BUF=($(tr : / <<< "${BUF}"))
     fi
      echo "Setting remote origin to: https://$VCS_USERNAME:$VCS_PASSWORD@$BUF"
            git remote set-url origin https://$VCS_USERNAME:$VCS_PASSWORD@$BUF
