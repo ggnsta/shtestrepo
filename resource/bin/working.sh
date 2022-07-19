@@ -129,9 +129,9 @@ SOURCE_BRANCH=$BRANCH_NAME_PATTERN-$TODAY_DATE
 parse_git_url
 
 response=$(java -jar jenkins-cli.jar -s $JENKINS_URL -auth $JENKINS_USERNAME:$JENKINS_PASSWORD list-jobs "$JENKINS_VIEW")
-  if [[ $response = ERROR:* ]]; then
-      echo "something went wrong while accessing jenkins.cli: " $response
-      exit 1
+  if [[ -z "${response}" ]]; then
+    echo "something went wrong while accessing jenkins.cli"
+    exit 1
   fi
 echo "Getting a list of all jobs for '$JENKINS_VIEW':\n $response"
 
