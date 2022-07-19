@@ -97,16 +97,6 @@ parse_git_url(){
   echo "4.VCS_REPO: $VCS_REPO"
 }
 
-set_remote(){
-    BUF=$REMOTE_URL
-    if [[ ! "$GIT_URL" == *"$SSH"* ]]; then
-       BUF=($(tr : / <<< "${BUF}"))
-        echo $BUF
-    fi
-     echo "Setting remote origin to: https://$VCS_USERNAME:$VCS_PASSWORD@$BUF"
-           git remote set-url origin https://$VCS_USERNAME:$VCS_PASSWORD@$BUF
-}
-
 pull_github(){
   curl -s -o response.txt -w "%{http_code}"\
     -X POST \
@@ -124,12 +114,25 @@ pull_bitbucket(){
   	    --data '{"title": "JB-'$TODAY_DATE'","source": {"branch": {"name": "'$SOURCE_BRANCH'"}}, "destination": {"branch": {"name": "'${TARGET_BRANCH:7}'"}}}'
 }
 
+set_remote(){
+    BUF=$REMOTE_URL
+    if [[ ! "$GIT_URL" == *"$SSH"* ]]; then
+       BUF=($(tr : / <<< "${BUF}"))
+    fi
+     echo "Setting remote origin to: https://$VCS_USERNAME:$VCS_PASSWORD@$BUF"
+           git remote set-url origin https://$VCS_USERNAME:$VCS_PASSWORD@$BUF
+}
+
 #Begin of script
 TODAY_DATE=$(date +"%m-%d-%Y")
 SOURCE_BRANCH=$BRANCH_NAME_PATTERN-$TODAY_DATE
 parse_git_url
 
 response=$(java -jar jenkins-cli.jar -s $JENKINS_URL -auth $JENKINS_USERNAME:$JENKINS_PASSWORD list-jobs "$JENKINS_VIEW")
+  if [[ $response = ERROR:* ]]; then
+      echo "something went wrong while accessing jenkins.cli: " $response
+      exit 1
+  fi
 echo "Getting a list of all jobs for '$JENKINS_VIEW':\n $response"
 
 for var in $response
