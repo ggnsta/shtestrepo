@@ -94,6 +94,8 @@ parse_git_url(){
 }
 
 pull_github(){
+  echo 'GITHUUUUUUUUUUUUUUUUUUUUUUUUUUB'
+  echo ${TARGET_BRANCH:7}
   curl -s -o response.txt -w "%{http_code}"\
     -X POST \
     -H "Accept: application/json" \
