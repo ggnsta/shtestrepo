@@ -99,7 +99,7 @@ parse_git_url(){
 
 set_remote(){
     BUF=$REMOTE_URL
-    if [[ "$GIT_URL" == *"$SSH"* ]]; then
+    if [[ ! "$GIT_URL" == *"$SSH"* ]]; then
        BUF=($(tr : / <<< "${BUF}"))
         echo $BUF
     fi
