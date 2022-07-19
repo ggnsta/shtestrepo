@@ -94,8 +94,6 @@ parse_git_url(){
 }
 
 pull_github(){
-  echo "GITHUUUUUUUUUUUUUUUUUUUUUUUUUUB"
-  echo ${TARGET_BRANCH:7}
   curl -s -o response.txt -w "%{http_code}"\
     -X POST \
     -H "Accept: application/json" \
@@ -148,6 +146,7 @@ if [ $(date +%A) = $PR_DAY ]; then
   echo "$VCS_HOST is used."
 
   if [ $VCS_HOST == "github.com" ]; then
+    echo "Githuuuuuuuuuuuuuub '$TARGET_BRANCH'"
     statusCode=$(pull_github)
   elif [ $VCS_HOST == "bitbucket.org" ]; then
     statusCode=$(pull_bitbucket)
